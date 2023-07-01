@@ -26,17 +26,17 @@ const App = () => {
   
   const numHandler = (e) => {
     e.preventDefault();
-    const value = e.target.innerHTML;
+    const val = e.target.innerHTML;
 
     if (removeSpaces(calc.num).length < 16) {
       setCalc({
         ...calc,
         num:
-          calc.num === 0 && value === "0"
+          calc.num === 0 && val === "0"
             ? "0"
             : removeSpaces(calc.num) % 1 === 0
-            ? toLocaleString(Number(removeSpaces(calc.num + value)))
-            : toLocaleString(calc.num + value),
+            ? toLocaleString(Number(removeSpaces(calc.num + val)))
+            : toLocaleString(calc.num + val),
         res: !calc.sign ? 0 : calc.res,
       });
     }
@@ -44,21 +44,21 @@ const App = () => {
 
   const decHandler = (e) => {
     e.preventDefault();
-    const value = e.target.innerHTML;
+    const val = e.target.innerHTML;
   
     setCalc({
       ...calc,
-      num: !calc.num.toString().includes(".") ? calc.num + value : calc.num,
+      num: !calc.num.toString().includes(".") ? calc.num + val : calc.num,
     });
   };
 
   const signHandler = (e) => {
     e.preventDefault();
-    const value = e.target.innerHTML;
+    const val = e.target.innerHTML;
   
     setCalc({
       ...calc,
-      sign: value,
+      sign: val,
       res: !calc.res && calc.num ? calc.num : calc.res,
       num: 0,
     });
@@ -68,12 +68,19 @@ const App = () => {
     if (calc.sign && calc.num) {
       const math = (a, b, sign) =>
         sign === "+"
-          ? a + b
-          : sign === "-"
-          ? a - b
-          : sign === "x"
-          ? a * b
-          : a / b;
+          ? a + b : 
+          sign === "-"
+          ? a - b: 
+          sign === "x"
+          ? a * b: 
+          sign === "÷"
+          ? a / b : 
+          sign === "x^y"
+          ? Math.pow(a, b) : 
+          sign === "ln"
+          ? Math.log(b) :
+          Math.log10(b)
+          
   
       setCalc({
         ...calc,
@@ -109,25 +116,57 @@ const App = () => {
   };
 
   const factorialHandler = () => {
+    let n = calc.num
+    let val = calc.num
+    while (n > 1) {
+      n--;
+      val *= n
+    }
+
     setCalc({
-      sign: ""
+      sign: "",
+      res: val,
+      num: 0
     });
   }
 
-  const trigHandler = () => {
-
+  const trigHandler = (e) => {
+    e.preventDefault();
+    const val = e.target.innerHTML;
+    
+    let n = calc.num ? calc.num : calc.res
+    setCalc({
+      sign: "",
+      res: val === "sin" ? Math.sin(n) :
+        val === "cos" ? Math.cos(n) :
+        Math.tan(n),
+      num: 0
+    });
   }
 
-  const logHandler = () => {
-
+  const sqrtHandler = (e) => {
+    e.preventDefault();
+    const val = e.target.innerHTML;
+    
+    let n = calc.num ? calc.num : calc.res
+    setCalc({
+      sign: "",
+      res: Math.sqrt(n),
+      num: 0
+    });
   }
 
-  const powHandler = () => {
-
-  }
-
-  const expHandler = () => {
-
+  const expHandler = (e) => {
+    e.preventDefault();
+    const val = e.target.innerHTML;
+    
+    let n = calc.num ? calc.num : calc.res
+    console.log(n)
+    setCalc({
+      sign: "",
+      res: n.includes("e") ? Number(n).toLocaleString() : Number(n).toExponential(),
+      num: 0
+    });
   }
 
   const nHandler = () => {
@@ -150,10 +189,9 @@ const App = () => {
                   btn === "%" ? percentHandler :
                   btn === "AC" ? resetHandler :
                   btn === "sin" || btn === "cos" || btn === "tan" ? trigHandler :
-                  btn === "ln" || btn === "log" ? logHandler:
-                  btn === "√" || btn === "x^y" ? powHandler :
-                  btn === "exp" ? expHandler :
-                  btn === "÷" || btn === "x" || btn === "-" || btn === "+" ? signHandler :
+                  btn === "√" ? sqrtHandler :
+                  btn === "EXP" ? expHandler :
+                  btn === "÷" || btn === "x" || btn === "-" || btn === "+" || btn === "log" || btn === "ln" || btn === "x^y" ? signHandler :
                   btn === "." ? decHandler :
                   btn === "=" ? equalsHandler : 
                   btn === "(" || btn === ")" || btn === "Deg" ? nHandler :
