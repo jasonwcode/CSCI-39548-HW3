@@ -85,7 +85,7 @@ const App = () => {
       setCalc({
         ...calc,
         res:
-          calc.num === "0" && calc.sign === "/"
+          calc.num === "0" && calc.sign === "÷"
             ? "Can't divide with 0"
             : math(Number(calc.res), Number(calc.num), calc.sign),
         sign: "",
