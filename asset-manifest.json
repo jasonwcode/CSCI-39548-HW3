@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/CSCI-39548-HW3/static/css/main.b133f807.css",
+    "main.js": "/CSCI-39548-HW3/static/js/main.659f609a.js",
+    "index.html": "/CSCI-39548-HW3/index.html",
+    "main.b133f807.css.map": "/CSCI-39548-HW3/static/css/main.b133f807.css.map",
+    "main.659f609a.js.map": "/CSCI-39548-HW3/static/js/main.659f609a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b133f807.css",
+    "static/js/main.659f609a.js"
+  ]
+}
